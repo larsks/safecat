@@ -6,27 +6,27 @@ typedef struct substdio {
   int p;
   int n;
   int fd;
-  int (*op)();
+  int (*op)(int, const char *, int);
 } substdio;
 
-#define SUBSTDIO_FDBUF(op,fd,buf,len) { (buf), 0, (len), (fd), (op) }
+#define SUBSTDIO_FDBUF(op,fd,buf,len) { (buf), 0, (len), (fd), (int (*)(int, const char *, int))(op) }
 
-extern void substdio_fdbuf();
+extern void substdio_fdbuf(register substdio *s, register int (*op)(int, const char *, int), register int fd, register char *buf, register int len);
 
-extern int substdio_flush();
-extern int substdio_put();
-extern int substdio_bput();
-extern int substdio_putflush();
-extern int substdio_puts();
-extern int substdio_bputs();
-extern int substdio_putsflush();
+extern int substdio_flush(register substdio *s);
+extern int substdio_put(register substdio *s, const char *buf, register int len);
+extern int substdio_bput(register substdio *s, const char *buf, register int len);
+extern int substdio_putflush(register substdio *s, const char *buf, register int len);
+extern int substdio_puts(register substdio *s, const char *buf);
+extern int substdio_bputs(register substdio *s, const char *buf);
+extern int substdio_putsflush(register substdio *s, const char *buf);
 
-extern int substdio_get();
-extern int substdio_bget();
-extern int substdio_feed();
+extern int substdio_get(register substdio *s, register char *buf, register int len);
+extern int substdio_bget(register substdio *s, register char *buf, register int len);
+extern int substdio_feed(register substdio *s);
 
-extern char *substdio_peek();
-extern void substdio_seek();
+extern char *substdio_peek(substdio *s);
+extern void substdio_seek(register substdio *s, register int len);
 
 #define substdio_fileno(s) ((s)->fd)
 
@@ -42,6 +42,6 @@ extern void substdio_seek();
     : substdio_bput((s),&(c),1) \
   )
 
-extern int substdio_copy();
+extern int substdio_copy(register substdio *ssout, register substdio *ssin);
 
 #endif

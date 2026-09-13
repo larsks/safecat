@@ -1,8 +1,10 @@
 #ifndef ALLOC_H
 #define ALLOC_H
 
-extern /*@null@*//*@out@*/char *alloc();
-extern void alloc_free();
-extern int alloc_re();
+#include <stddef.h>
+
+extern /*@null@*//*@out@*/char *alloc(size_t n);
+extern void alloc_free(char *x);
+extern int alloc_re(char **x,size_t m,size_t n);
 
 #endif

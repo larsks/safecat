@@ -19,7 +19,7 @@ void alarm_handler(int sig) {
    This function was pretty much lifted from Qmail code.  Thanks to
    Professor Bernstein. 
    ****************************************************************** */
-void set_handler(int sig, void (*h)()) {
+void set_handler(int sig, void (*h)(int)) {
 #ifdef HASSIGACTION
   struct sigaction sa;
   sa.sa_handler = h;

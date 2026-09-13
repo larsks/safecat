@@ -4,7 +4,8 @@
 #define FMT_ULONG 40 /* enough space to hold 2^128 - 1 in decimal, plus \0 */
 #define FMT_LEN ((char *) 0) /* convenient abbreviation */
 
-extern unsigned int fmt_uint64();
+#include <stdint.h>
+extern unsigned int fmt_uint64(char *, uint64_t);
 extern unsigned int fmt_uint();
 extern unsigned int fmt_uint0();
 extern unsigned int fmt_xint();

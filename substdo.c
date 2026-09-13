@@ -3,11 +3,7 @@
 #include "byte.h"
 #include "error.h"
 
-static int allwrite(op,fd,buf,len)
-register int (*op)();
-register int fd;
-register char *buf;
-register int len;
+static int allwrite(register int (*op)(int, const char *, int), register int fd, const register char *buf, register int len)
 {
   register int w;
 
@@ -17,15 +13,14 @@ register int len;
       if (errno == error_intr) continue;
       return -1; /* note that some data may have been written */
     }
-    if (w == 0) ; /* luser's fault */
+    if (w == 0) {} /* luser's fault */
     buf += w;
     len -= w;
   }
   return 0;
 }
 
-int substdio_flush(s)
-register substdio *s;
+int substdio_flush(register substdio *s)
 {
   register int p;
  
@@ -35,10 +30,7 @@ register substdio *s;
   return allwrite(s->op,s->fd,s->x,p);
 }
 
-int substdio_bput(s,buf,len)
-register substdio *s;
-register char *buf;
-register int len;
+int substdio_bput(register substdio *s, const char *buf, register int len)
 {
   register int n;
  
@@ -52,10 +44,7 @@ register int len;
   return 0;
 }
 
-int substdio_put(s,buf,len)
-register substdio *s;
-register char *buf;
-register int len;
+int substdio_put(register substdio *s, const char *buf, register int len)
 {
   register int n;
  
@@ -77,32 +66,23 @@ register int len;
   return 0;
 }
 
-int substdio_putflush(s,buf,len)
-register substdio *s;
-register char *buf;
-register int len;
+int substdio_putflush(register substdio *s, const char *buf, register int len)
 {
   if (substdio_flush(s) == -1) return -1;
   return allwrite(s->op,s->fd,buf,len);
 }
 
-int substdio_bputs(s,buf)
-register substdio *s;
-register char *buf;
+int substdio_bputs(register substdio *s, const char *buf)
 {
   return substdio_bput(s,buf,str_len(buf));
 }
 
-int substdio_puts(s,buf)
-register substdio *s;
-register char *buf;
+int substdio_puts(register substdio *s, const char *buf)
 {
   return substdio_put(s,buf,str_len(buf));
 }
 
-int substdio_putsflush(s,buf)
-register substdio *s;
-register char *buf;
+int substdio_putsflush(register substdio *s, const char *buf)
 {
   return substdio_putflush(s,buf,str_len(buf));
 }

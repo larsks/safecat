@@ -9,9 +9,9 @@ struct taia {
   unsigned long atto; /* 0...999999999 */
 } ;
 
-extern void taia_tai();
+extern void taia_tai(struct taia *ta, struct tai *t);
 
-extern void taia_now();
+extern void taia_now(struct taia *t);
 
 extern double taia_approx();
 extern double taia_frac();
@@ -26,6 +26,6 @@ extern void taia_pack();
 extern void taia_unpack();
 
 #define TAIA_FMTFRAC 19
-extern unsigned int taia_fmtfrac();
+extern unsigned int taia_fmtfrac(char *s, struct taia *t);
 
 #endif

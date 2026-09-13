@@ -18,8 +18,8 @@ void writefile(int fd) {
   substdio ssout;
 
   /* Prepare substdio buffers for reading and writing. */
-  substdio_fdbuf(&ssin,read,0,inbuf,sizeof(inbuf));
-  substdio_fdbuf(&ssout,write,fd,outbuf,sizeof(outbuf));
+  substdio_fdbuf(&ssin,(int (*)(int, const char *, int))read,0,inbuf,sizeof(inbuf));
+  substdio_fdbuf(&ssout,(int (*)(int, const char *, int))write,fd,outbuf,sizeof(outbuf));
 
   /* Copy stdin to the output file, watching the return values each time. */
   if (substdio_copy(&ssout,&ssin) < 0) goto fail;
